@@ -23,37 +23,37 @@ import simplejson as json
 class DWH(object):
     def __init__(self):
         self.fs    = peachbox.fs.AmazonDfs()
-        #self.init_spark()
+        self.init_spark()
         pass
 
-    #def init_spark(self):
-        #self.spark = peachbox.Spark()
+    def init_spark(self):
+        self.spark = peachbox.Spark()
     
-    #def shutdown(self):
-        #self.spark.stop()
+    def shutdown(self):
+        self.spark.stop()
 
     def query(self, model, from_utime, before_utime):
         pass
-        #self.fs.mart = model.mart
-        #sources = ','.join(self.fs.dirs_in_time_range(model, from, before))
-        #rdd     = self.retrieve(sources) 
-        #return self.load_json(rdd)
+        self.fs.mart = model.mart
+        sources = ','.join(self.fs.dirs_in_time_range(model, from, before))
+        rdd     = self.retrieve(sources) 
+        return self.load_json(rdd)
 
-    ## TODO: Handle target times properly
-    #def write(self, model, rdd, seconds=0):
-        #self.fs.mart = model.mart
-        #path = model.path() + '/' + str(seconds)
-        #self.fs.rm_fr(path)
-        #json_rdd = self.dump_json(rdd)
-        #json_rdd.saveAsTextFile(self.fs.url_prefix() + path)
+    # TODO: Handle target times properly
+    def write(self, model, rdd, seconds=0):
+        self.fs.mart = model.mart
+        path = model.path() + '/' + str(seconds)
+        self.fs.rm_fr(path)
+        json_rdd = self.dump_json(rdd)
+        json_rdd.saveAsTextFile(self.fs.url_prefix() + path)
 
-    #def retrieve(self, sources):
-        #return self.spark.context().textFile(sources)
+    def retrieve(self, sources):
+        return self.spark.context().textFile(sources)
 
-    #def load_json(self, rdd)
-        #return rdd.map(lambda line: json.loads(line))
+    def load_json(self, rdd)
+        return rdd.map(lambda line: json.loads(line))
 
-    #def dump_json(self, rdd):
-        #return rdd.map(lambda line: json.dumps(line))
+    def dump_json(self, rdd):
+        return rdd.map(lambda line: json.dumps(line))
 
 
